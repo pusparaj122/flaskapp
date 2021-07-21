@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% if title %}
+	{{ title }}
+{% else %}
+	{% block title %}Register{% endblock %}
+{% endif %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group" style="padding: 30px;">
+				<legend class="border-bottom mb-4">Log In</legend>
+				
+				<div class="form-group">
+					<!-- in this fashion we can even give certain class to the form or anyother jinja activity -->
+					{{ form.email.label(class='form-control-label') }}
+
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class='form-control form-control-lg') }}					
+					{% endif %}				
+				</div>
+				<div class="form-group">
+					<!-- in this fashion we can even give certain class to the form or anyother jinja activity -->
+					{{ form.password.label(class='form-control-label') }}
+					{% if form.password.errors %}
+						{{ form.password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.password.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.password(class='form-control form-control-lg') }}					
+					{% endif %}
+				</div>
+				<div class="form-check">
+					{{ form.remember_me (class = "form-check-input") }} {{ form.remember_me.label (class = "form-check-label") }}
+				</div>
+				
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class='btn btn-outline-info') }}
+			</div>
+			<small class="text-muted ml-2" >
+				<a href="{{ url_for('users.reset_request') }}" style="text-decoration: none;">Forgot Password?</a>
+			</small>
+		</form>
+	</div>
+	<div class="border-top pt-3">
+		<small class="text-muted">
+			Don't Have An Accoutn? <a class="ml-2" href="{{ url_for('users.register') }}" style="text-decoration: none;"> Sign Up </a>
+		</small>
+	</div>
+{% endblock %}

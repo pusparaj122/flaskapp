@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% if title %}
+	{{ title }}
+{% else %}
+	{% block title %}Register{% endblock %}
+{% endif %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group" style="padding: 30px;">
+				<legend class="border-bottom mb-4">Join Today</legend>
+				<div class="form-group">
+
+<!-- These form we do is from "form=form" in routes.py,  username or other stuff are the variable names that we set in forms.py -->
+
+					<!-- in this fashion we can even give certain class to the form or any other jinja activity -->
+
+					{{ form.username.label(class='form-control-label') }}
+
+					{% if form.username.errors %}
+						{{ form.username(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.username.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.username(class='form-control form-control-lg') }}					
+					{% endif %}
+
+				</div>
+				<div class="form-group">
+					<!-- in this fashion we can even give certain class to the form or anyother jinja activity -->
+					{{ form.email.label(class='form-control-label') }}
+
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class='form-control form-control-lg') }}					
+					{% endif %}				
+				</div>
+				<div class="form-group">
+					<!-- in this fashion we can even give certain class to the form or anyother jinja activity -->
+					{{ form.password.label(class='form-control-label') }}
+					{% if form.password.errors %}
+						{{ form.password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.password.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.password(class='form-control form-control-lg') }}					
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<!-- in this fashion we can even give certain class to the form or anyother jinja activity -->
+					{{ form.confirm_password.label(class='form-control-label') }}
+					{% if form.confirm_password.errors %}
+						{{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.confirm_password.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.confirm_password(class='form-control form-control-lg') }}					
+					{% endif %}
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class='btn btn-outline-info') }}
+			</div>
+		</form>
+	</div>
+	<div class="border-top pt-3">
+		<small class="text-muted">
+			Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}" style="text-decoration: none;"> Sign In </a>
+		</small>
+	</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}home{% endblock %}
+{% block content %}
+	<article class="media content-section">
+		<img src="{{ url_for('static', filename='profile_pic/' + post.author.image_file) }}" class="rounded-circle article-img">
+  		<div class="media-body" style="margin-left: 70px; margin-top: -60px;">
+    		<div class="article-metadata">
+      			<a class="mr-2" href="{{ url_for('users.user_posts', username = post.author.username)}}", style="text-decoration: none;">{{ post.author.username }}</a>
+      			<small class="text-muted" style="text-decoration: none">{{post.date_posted.strftime('%Y-%m-%d') }}</small>
+      			<!-- checks if the author of the page is the current user or not and only execute when the author of the page is the current user -->
+      			{% if post.author == current_user %}
+      				<div>
+
+      					<!-- it will also take post_id to recognize the post -->
+      					<a href="{{ url_for('posts.update_post', post_id = post.id) }}" class="btn btn-secondary btn-sm m-1 ">Update</a>
+      					<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="modal" data-bs-target="#DeleteModal">
+						  Delete
+						</button>
+
+						<!-- Modal -->
+						<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="DeleteModalLabel">Delete Post?</h5>
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						        <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+						        	<input type="submit" class="btn btn-danger" value="Delete">
+						        </form>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+
+
+
+      				</div>
+      			{% endif %}
+    		</div>
+    		<h2 class="article-title">{{ post.title }}</h2>
+    		<p class="article-content">{{ post.content }}</p>
+  		</div>
+	</article>
+	<!-- Modal -->
+	
+{% endblock content %}

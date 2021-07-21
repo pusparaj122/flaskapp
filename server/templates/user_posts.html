@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+	
+	<!-- this here will have a h1 tag with username at the top and total number of posts by the user at the top -->
+	<h1 class="mb-3">Posts by {{ user.username }} ({{ posts.total }})</h1>
+	{% for post in posts.items %}
+		<article class="media content-section">
+			<img src="{{ url_for('static', filename='profile_pic/' + post.author.image_file) }}" class="rounded-circle article-img">
+  			<div class="media-body" style="margin-left: 70px; margin-top: -60px;">
+    			<div class="article-metadata">
+      				<a class="mr-2" href="{{ url_for('users.user_posts', username = post.author.username)}}", style="text-decoration: none;">{{ post.author.username }}</a>
+      				<small class="text-muted" style="text-decoration: none">{{post.date_posted.strftime('%Y-%m-%d') }}</small>
+    			</div>
+    			<h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+    			<p class="article-content">{{ post.content }}</p>
+  			</div>
+		</article>
+	{% endfor %}
+	
+	<!-- this for will get the number of page that will be created when we do per_page=2 and page_num will represent those numbers. -->
+
+		<!-- passed parameter on the iter_page it means it will have 1 link on the left edge and 1 page link on the right edge and 1 page link at the left of the current page and 2 at the right of the current page -->
+	{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+
+		<!-- here iter_page() will get 1,2,3,4,5,6 none 8,9,10, none, 14, 15 this fashion if the iter_page will pass int nuber than the below code will be executed means it will display the page_num  -->
+		{% if page_num %}
+
+			<!-- what it does is checks whether the posts page is equal to the page number we have currently clicked on the page number and if yes than it will have a blue color on the page number button -->
+			{% if posts.page == page_num %}
+				<a href="{{ url_for('users.user_posts', username=user.username, page = page_num) }}" class="btn btn-info mb-4">{{ page_num }}</a>
+			{% else %}
+				<a href="{{ url_for('users.user_posts',username=user.username, page = page_num) }}" class="btn btn-outline-info mb-4">{{ page_num }}</a>
+			{% endif %}
+
+		<!-- this code here will represent ... when the iter_page passes none value -->
+		{% else %}
+			...
+		{% endif %}
+	{% endfor %}
+{% endblock content %}
